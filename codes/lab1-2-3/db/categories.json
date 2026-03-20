@@ -1,0 +1,14 @@
+[
+  {
+    "name" : "mobile",
+    "description" : "Điện thoại"
+  },
+  {
+    "name" : "laptop",
+    "description" : "Máy tính xách tay"
+  },
+  {
+    "name" : "tablet",
+    "description" : "Máy tính bảng"
+  }
+] 

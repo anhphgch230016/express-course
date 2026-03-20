@@ -1,0 +1,20 @@
+[
+  {
+    "name" : "iPhone 17 Pro Max",
+    "price" : 1500.88,
+    "image" : "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-17-pro-256-gb.png",  
+    "category" : "69bcf539e652300ee32618ea"
+  },
+  {
+    "name" : "Macbook Pro 16",
+    "price" : 2000.99,
+    "image" : "https://www.macworld.com/wp-content/uploads/2024/11/16inch-m4-macbook-pro-front.jpg?quality=50&strip=all",
+    "category" : "69bcf539e652300ee32618eb"
+  },
+  {
+    "name" : "iPad Pro 11",
+    "price": 1234.56,
+    "image" : "https://product.hstatic.net/200000525189/product/ipad_pro_xam_1c8bdd7928c447c0895dd7cf55a76926.png",
+    "category" : "69bcf539e652300ee32618ec"
+  }
+] 
