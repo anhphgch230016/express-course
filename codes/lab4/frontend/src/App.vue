@@ -27,7 +27,7 @@ export default {
     },
     deleteProduct(id) {
       const confirmed = confirm("Are you sure to delete this product?");
-      if (confirm) {
+      if (confirmed) {
         axios
           .delete(backendAPI + "/delete/" + id)
           .then(() => {
