@@ -7,7 +7,7 @@
 
 - Handlebars (HBS): view engine
 
-- Materialize: UI framework
+- Materialize: CSS framework
 
 - MongoDB: NoSQL database
 
@@ -16,7 +16,7 @@
 - VS Code: Code Editor
 
   + Extensions:
-    * GitHub Pull Requests & Issues
+    * GitHub Pull Requests  
     * hbs snippets
     * Thunder Client
 
