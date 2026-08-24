@@ -11,7 +11,10 @@
 {{/if}}
 
   <br><br>
-  Image: <input type="file" name="image" id="" required>
+  Image URL (cloud): <input type="url" name="imageUrl"
+    placeholder="https://example.com/product.jpg">
+  <br><br>
+  Or upload image (max 5 MB): <input type="file" name="imageFile" accept="image/*">
   <br><br>
   Category:
   <select name="category" id="">

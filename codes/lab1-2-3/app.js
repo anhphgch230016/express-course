@@ -10,13 +10,15 @@ var categoryRouter = require('./routes/category');  //location: routes/category.
 var productRouter = require('./routes/product');    //location: routes/product.js
 var authRouter = require('./routes/auth');
 var apiRouter = require('./routes/api');
+var seedDemoUsers = require('./seeds/userSeeder');
+var seedCatalogData = require('./seeds/catalogSeeder');
 
 var app = express();
 
 //import "express-session" library
 var session = require('express-session');
 //set session timeout
-const timeout = 10000 * 60 * 60 * 24;  // 24 hours (in milliseconds)
+const timeout = 1000 * 60 * 60 * 24;  // 24 hours (in milliseconds)
 //config session parameters
 app.use(session({
   secret: "practice_makes_perfect",  // Secret key for signing the session ID cookie
@@ -35,7 +37,11 @@ var database = "mongodb://localhost:27017/web";
 
 //1C. connect to mongodb
 mongoose.connect(database)
-  .then(() => console.log('connect to db succeed !'))
+  .then(async () => {
+    console.log('connect to db succeed !');
+    await seedDemoUsers();
+    await seedCatalogData();
+  })
   .catch((err) => console.log('connect to db failed. Error: ' + err));
 
 //2. config body-parser library (get data from client-side)
@@ -56,13 +62,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 //IMPORTANT: place this code before setting router url
 app.use((req, res, next) => {
   res.locals.username = req.session.username;
+  res.locals.role = req.session.role;
+  res.locals.isAdmin = req.session.role === 'admin';
   next();
 });
-
-//set user authorization for whole router
-//IMPORTANT: place this code before setting router url
-const { checkSingleSession } = require('./middlewares/auth');
-app.use('/category', checkSingleSession);
 
 app.use('/', indexRouter);
 //3B. declare web URL of routers
@@ -72,12 +75,12 @@ app.use('/auth', authRouter);
 app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

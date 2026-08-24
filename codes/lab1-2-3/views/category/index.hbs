@@ -1,12 +1,16 @@
 <h1>Category List</h1>
-<div class="row">
-   <a class="btn" href="/category/add">Add category</a>
-</div>
+{{#if isAdmin}}
+   <div class="row">
+      <a class="btn" href="/category/add">Add category</a>
+   </div>
+{{else}}
+   <p class="read-only-notice">Read-only mode: you can view categories and their products.</p>
+{{/if}}
 <table>
    <tr>
       <th>Category name</th>
       <th>Category description</th>
-      <th>Menu</th>
+      {{#if isAdmin}}<th>Menu</th>{{/if}}
    </tr>
    {{#each categoryList }}
    <tr>
@@ -16,11 +20,13 @@
          </a>
       </td>
       <td>{{ description }}</td>
-      <td>
-         <a class="btn orange" href="/category/edit/{{_id}}">Edit</a>
-         <a class="btn brown" href="/category/delete/{{_id}}"
-            onclick="return confirm('Do you want to delete this category ?')" ;>Delete</a>
-      </td>
+      {{#if ../isAdmin}}
+         <td>
+            <a class="btn orange" href="/category/edit/{{_id}}">Edit</a>
+            <a class="btn brown" href="/category/delete/{{_id}}"
+               onclick="return confirm('Do you want to delete this category ?')" ;>Delete</a>
+         </td>
+      {{/if}}
    </tr>
    {{/each}}
 </table>

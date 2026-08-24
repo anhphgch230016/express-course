@@ -12,3 +12,15 @@ a {
   background-color: yellow;
   text-decoration: underline;
 }
+
+.role-indicator {
+  padding: 0 15px;
+  font-weight: bold;
+}
+
+.read-only-notice {
+  padding: 10px 14px;
+  color: #455a64;
+  background: #eceff1;
+  border-left: 4px solid #607d8b;
+}

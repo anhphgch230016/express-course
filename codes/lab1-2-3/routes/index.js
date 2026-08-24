@@ -6,11 +6,17 @@ router.get('/', checkLoginSession, function (req, res) {
   res.render('index', { layout: 'home_layout' });
 });
 
-router.get('/admin', (req, res) => {
+router.get('/admin', checkLoginSession, (req, res) => {
+  if (req.session.role !== 'admin') {
+    return res.status(403).send('Forbidden: admin role is required.');
+  }
   res.render('admin');
 })
 
-router.get('/user', (req, res) => {
+router.get('/user', checkLoginSession, (req, res) => {
+  if (req.session.role !== 'user') {
+    return res.status(403).send('Forbidden: user role is required.');
+  }
   res.render('user');
 })
 

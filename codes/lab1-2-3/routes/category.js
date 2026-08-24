@@ -3,11 +3,15 @@ var router = express.Router();
 //remember to import models before use
 var CategoryModel = require('../models/CategoryModel');
 var ProductModel = require('../models/ProductModel');
+const { addImageUrl } = require('../utils/productImage');
+const { checkSingleSession, checkMultipleSession } = require('../middlewares/auth');
+
+const canRead = checkMultipleSession(['user', 'admin']);
 
 //URL: localhost:3000/category
 //SQL: SELECT * FROM category
 //must include "async", "await"
-router.get('/', async (req, res) => {
+router.get('/', canRead, async (req, res) => {
    //retrieve data from "categories" collection
    var categoryList = await CategoryModel.find({});
    //render view and pass data
@@ -16,7 +20,7 @@ router.get('/', async (req, res) => {
 
 //URL: localhost:3000/category/delete/'id'
 //SQL: DELETE FROM category WHERE _id = 'id'
-router.get('/delete/:id', async (req, res) => {
+router.get('/delete/:id', checkSingleSession, async (req, res) => {
    //req.params: get value by url
    var id = req.params.id;
    await CategoryModel.findByIdAndDelete(id);
@@ -24,35 +28,37 @@ router.get('/delete/:id', async (req, res) => {
 })
 
 //render form for user to input
-router.get('/add', (req, res) => {
+router.get('/add', checkSingleSession, (req, res) => {
    res.render('category/add');
 })
 
 //receive form data and insert it to database
-router.post('/add', async (req, res) => {
+router.post('/add', checkSingleSession, async (req, res) => {
    //req.body: get value by form
    var category = req.body;
    await CategoryModel.create(category);
    res.redirect('/category');
 })
 
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', checkSingleSession, async (req, res) => {
    var id = req.params.id;
    var category = await CategoryModel.findById(id);
    res.render('category/edit', { category });
 })
 
-router.post('/edit/:id', async (req, res) => {
+router.post('/edit/:id', checkSingleSession, async (req, res) => {
    var id = req.params.id;
    var data = req.body;
    await CategoryModel.findByIdAndUpdate(id, data);
    res.redirect('/category');
 })
 
-router.get('/detail/:id', async (req, res) => {
+router.get('/detail/:id', canRead, async (req, res) => {
    var id = req.params.id;
    var productList = await ProductModel.find({ category: id }).populate('category');
-   res.render('product/index', { productList })
+   productList = productList.map(addImageUrl);
+   const view = req.session.role === 'admin' ? 'product/index' : 'product/indexUser';
+   res.render(view, { productList })
 })
 module.exports = router;
 

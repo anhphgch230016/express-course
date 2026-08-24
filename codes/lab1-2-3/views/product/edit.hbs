@@ -1,12 +1,17 @@
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
    <h1>Edit product</h1>
    Name: <input type="text" name="name" required value="{{ product.name }}">
    <br><br>
    Price: <input type="number" name="price" required value="{{ product.price }}">
    <br><br>
-   Image: <input type="url" name="image" required value="{{ product.image }}">
+   Image URL (cloud): <input type="url" name="imageUrl"
+      placeholder="https://example.com/product.jpg">
    <br><br>
-   <img src="{{ product.image }}" alt="" width="120" height="120">
+   Or upload a new image (max 5 MB):
+   <input type="file" name="imageFile" accept="image/*">
+   <input type="hidden" name="currentImage" value="{{ product.image }}">
+   <br><br>
+   <img src="{{ product.imageUrl }}" alt="{{ product.name }}" width="120" height="120">
    <br><br>
    <input class="btn" type="submit" value="Edit">
 </form>

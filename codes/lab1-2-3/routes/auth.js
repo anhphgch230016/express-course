@@ -17,7 +17,8 @@ router.post('/register', async (req, res) => {
       var user = {
          username: userRegistration.username,
          password: hashPassword,
-         role: userRegistration.role,
+         // Public registration must never be able to create an admin account.
+         role: 'user',
       }
       await UserModel.create(user);
       res.redirect('/auth/login')
@@ -50,6 +51,8 @@ router.post('/login', async (req, res) => {
          else {
             res.redirect('/auth/login');
          }
+      } else {
+         res.redirect('/auth/login');
       }
    } catch (err) {
       res.send(err)
@@ -57,8 +60,11 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-   req.session.destroy();
-   res.redirect("/auth/login");
+   req.session.destroy((err) => {
+      if (err) return res.status(500).send('Logout failed.');
+      res.clearCookie('connect.sid');
+      res.redirect('/auth/login');
+   });
 })
 
 module.exports = router
